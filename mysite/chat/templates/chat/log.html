@@ -1,0 +1,40 @@
+{%  extends "base.html" %}
+{% block header %}
+{% endblock %}
+{% block content %}
+
+<div>
+    <div class=" w-75 m-auto">
+        <form lass="w-50 m-auto form-control shadow-sm" action="{% url 'chat:log' %}" method="GET">
+            <label class="w-100 shadow-sm m-auto text-center">ルームネーム</label>
+            <input class=" w-25 m-auto form-control shadow-sm" type="text" id="input_roomname" name="input_roomname" placeholder="ルームネーム" autofocus /><br />
+            <p class=" w-75 m-auto text-center shadow-sm" >ルーム名を検索するとメッセージ過去のログを見ることができます。</p><br />
+            <input class="w-100 shadow-sm m-auto text-center btn btn-outline-dark " type="submit" value="検索" />
+        </form>
+        <br>
+        <a class=" m-auto content-center  btn btn-outline-dark shadow-sm" href={% url 'chat:chat' %}>チャットルームに入る</a>
+        <a class="2 m-auto btn btn-outline-dark shadow-sm" href={% url 'chat:log' %}>更新</a>
+    </div>
+    <div>
+        <div class=" w-75 m-auto form-group">
+            <h3>{{ room_chat }}</h3>
+            {% for message in chat_message_room_logs  %}
+            <ul class="form-control border border-right-0 shadow-sm" style="list-style: none;" >
+                <textarea class="form-control border-bottom shadow-sm" style="width: 100%;">  {{ forloop.counter }}．ルーム({{message.room}})：{{ message.message }}</textarea>
+                <li>　{{ message.created_at }}</li> 
+            </ul>
+            {% endfor %}
+        </div>
+        <div class=" w-75 m-auto form-group">
+            <h3>全ルームの最新チャット</h3>
+            {% for message in chat_message_logs|slice:15 %}
+            <ul class="form-control border border-right-0 shadow-sm" style="list-style: none;" >
+                <textarea class="form-control border-bottom shadow-sm" style="width: 100%;"> {{ forloop.counter }}．({{message.room}})：{{ message.message }}</textarea>
+                <li>　{{ message.created_at }}</li> 
+            </ul>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
